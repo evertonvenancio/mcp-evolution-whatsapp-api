@@ -9,7 +9,9 @@ export const findChatsSchema = z.object({
       archived: z.boolean().optional().describe("Filter by archived status")
     })
     .optional()
-    .describe("Filter criteria for chats")
+    .describe("Filter criteria for chats"),
+  page: z.number().optional().describe("Page number for pagination (starts at 1). Use this to fetch all chats beyond the first page."),
+  offset: z.number().optional().describe("Number of results per page (e.g. 50 or 100)")
 });
 
-export type FindChatsSchema = z.infer<typeof findChatsSchema>; 
+export type FindChatsSchema = z.infer<typeof findChatsSchema>;

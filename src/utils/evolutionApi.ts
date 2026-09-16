@@ -1407,6 +1407,8 @@ export interface FindChatsParams {
     name?: string;
     archived?: boolean;
   };
+  page?: number;
+  offset?: number;
 }
 
 export interface FindChatsResponse {
