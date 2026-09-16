@@ -513,6 +513,29 @@ export class EvolutionApi {
     }
   }
 
+  public async findMessages(
+    instanceName: string,
+    remoteJid: string,
+    page?: number
+  ): Promise<FindMessagesResponse> {
+    try {
+      const response = await this.axiosInstance.post(
+        `/chat/findMessages/${instanceName}`,
+        { where: { key: { remoteJid } }, ...(page ? { page } : {}) }
+      );
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(
+          `Error finding messages: ${
+            error.response?.data?.message || error.message
+          }`
+        );
+      }
+      throw error;
+    }
+  }
+
   /**
    * Find contacts by filter criteria
    * @param instanceName Name of the Evolution API instance
@@ -1402,6 +1425,24 @@ export interface FindChatsResponse {
     tcToken?: string;
     tcTokenTimestamp?: number;
   }[];
+}
+
+export interface FindMessagesResponse {
+  messages: {
+    total: number;
+    pages: number;
+    currentPage: number;
+    records: {
+      id: string;
+      key: { id: string; fromMe: boolean; remoteJid: string };
+      pushName?: string;
+      messageType: string;
+      message: Record<string, unknown>;
+      messageTimestamp: number;
+      instanceId: string;
+      source: string;
+    }[];
+}
 }
 
 export interface FindContactsParams {

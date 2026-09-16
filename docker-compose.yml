@@ -8,7 +8,7 @@ services:
     container_name: mcp-evo-api
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "3001:3000"
     environment:
       - NODE_ENV=production
       - EVOLUTION_API_URL=${EVOLUTION_API_URL}
@@ -16,12 +16,12 @@ services:
     volumes:
       - mcp-data:/app/data
     networks:
-      - mcp-network
+      - evolution-net
 
 volumes:
   mcp-data:
     driver: local
 
 networks:
-  mcp-network:
-    driver: bridge 
+  evolution-net:
+    external: true
